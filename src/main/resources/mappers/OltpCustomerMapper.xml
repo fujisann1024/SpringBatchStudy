@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.example.demo.infra.mybatis.mapper.OltpCustomerMapper">
+  <insert id="upsert" parameterType="com.example.demo.domain.model.db.OltpCustomer">
+    INSERT INTO batch.oltp_m_customer (
+      customer_id, customer_name, customer_type, status, gender, birth_date,
+      created_at, created_by, updated_at, updated_by
+    ) VALUES (
+        #{customerId}
+      , #{customerName}
+      , #{customerType}
+      , #{status}
+      , #{gender}
+      , #{birthDate}
+      , #{createdAt}
+      , #{createdBy}
+      , #{updatedAt}
+      , #{updatedBy}
+    )
+    ON CONFLICT (customer_id)
+    DO UPDATE SET
+      customer_name  = EXCLUDED.customer_name,
+      customer_type  = EXCLUDED.customer_type,
+      status         = EXCLUDED.status,
+      gender         = EXCLUDED.gender,
+      birth_date     = EXCLUDED.birth_date,
+      updated_at     = EXCLUDED.updated_at,
+      updated_by     = EXCLUDED.updated_by
+  </insert>
+</mapper>
